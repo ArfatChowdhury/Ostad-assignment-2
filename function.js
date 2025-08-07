@@ -1,7 +1,14 @@
 import { students } from "./data.js";
 
+
 export const addStudent = (name, scores) => {
-   
+   const newStudent = {
+    id: students.length + 1,
+    name,
+    scores
+   }
+  return [...students, newStudent];
+
 }
 
 
