@@ -6,8 +6,8 @@
 
 // Export this data so other files can use it
 
-let id = 1;
-export const students = [
+
+export let students = [
     {
         id: 1,
         name: "Mr ovro",
@@ -29,3 +29,4 @@ export const students = [
         scores: [88, 92, 89]
     }
 ]
+console.log(`students`, students)
