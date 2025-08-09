@@ -49,37 +49,77 @@ export const getTopPerformers = () => {
     return topPerformers
 }
 
+function averageM() {
+    let averageOfAll = []
+    let totalAvg = 0
+    for (const student of copyOfStudents) {
+        const sumOfAll = student.scores.reduce((sum, score) => sum + score, 0)
+        const averageStd = sumOfAll / student.scores.length
+
+        const allStudentAvg = [...averageOfAll, { name: student.name, average: averageStd }]
+
+        totalAvg += averageStd
+        averageOfAll = allStudentAvg
+    }
+    const overallAvg = totalAvg / copyOfStudents.length
+    return overallAvg
+    // console.log(`avg of all` , averageOfAll)
+    // console.log(`total avg`, totalAvg)
+    // console.log (`overall average of class`, overallAvg)
+}
+
+
+
+
 export const getSummary = () => {
-   const allStudentAverage = copyOfStudents.map(student => {
-    const average = student.score.reduce((sum, score) => sum + score, 0) / student.scores.length
-    return { name: student.name, average };
-   })
-   const topPerformers = allStudentAverage.filter(student => student.average >= 80).sort((a, b) => b.average - a.average);
+    const allStudentAverage = copyOfStudents.map(student => {
+        const average = student.scores.reduce((sum, score) => sum + score, 0) / student.scores.length
+        return { name: student.name, average };
+    })
+    const topPerformers = allStudentAverage.filter(student => student.average >= 80).sort((a, b) => b.average - a.average);
 
-   const lowestPerformers = studentsWithAverages.filter(student => student.average >= 80).sort((a, b) => a.average - b.average);
+    const lowestPerformers = allStudentAverage.filter(student => student.average >= 80).sort((a, b) => a.average - b.average);
 
 
-   const summary = {
-    allStudents: allStudentAverage,
-    topPerformers,
-    lowestPerformers,
-    highestAverage: topPerformers[0], 
-    lowestAverage: lowestPerformers[0] 
-};
+    // const overallAverages(){}
+
+    const summary = {
+        allStudents: allStudentAverage,
+        topPerformers,
+        lowestPerformers,
+        overallAvg: averageM(),
+        highestAverage: topPerformers[0],
+        lowestAverage: lowestPerformers[0]
+    };
+
+    console.log('=== Summary ===');
+    console.log('All Student:', allStudentAverage.length)
+    console.log(`overall avg of class`, averageM())
+    console.log('Highest Average:', topPerformers[0]?.name);
+    console.log('Lowest Average:', lowestPerformers[0]?.name);
+
+    return summary;
 }
 
 
-export const updateScore = (id, newScore) => {
+export const updateScore = (id, scoreIndex, newScore) => {
+
+    const updateStudent = copyOfStudents.find(s => s.id === id)
+    updateStudent[scoreIndex] = newScore
+    console.log(`${updateStudent.name}'s score has been updated`);
 
 }
+
 
 export const printAllStudents = () => {
 
 }
 
-
+// updateScore(1,2,50)
 getTopPerformers()
 
 addStudent("John", [80, 90, 33])
 
 getSummary()
+
+// averageM()
