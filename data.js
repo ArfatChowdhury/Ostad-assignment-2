@@ -26,7 +26,6 @@ export let students = [
     {
         id: 4,
         name: "Jill Johnson",
-        scores: [88, 92, 89]
+        scores: [88, 4, 89]
     }
 ]
-console.log(`students`, students)

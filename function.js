@@ -1,9 +1,11 @@
 import { students } from "./data.js";
 
-let copyOfStudents = [...students];
+export let copyOfStudents = [...students];
+
+let id = 4;
 export const addStudent = (name, scores) => {
     const newStudent = {
-        id: students.length + 1,
+        id: id++,
         name,
         scores
     }
@@ -26,9 +28,14 @@ export const calculateAverage = (id) => {
 }
 
 
-export const getAllAverage = () => {
-
-}
+export function getAllAverages() {
+    console.log("📈 Student Averages:");
+    
+    for (const student of copyOfStudents) {
+      const average = student.scores.reduce((sum, score) => sum + score, 0) / student.scores.length;
+      console.log(`${student.name}: ${Math.round(average)}`);
+    }
+  }
 
 
 export const getTopPerformers = () => {
@@ -78,7 +85,7 @@ export const getSummary = () => {
     })
     const topPerformers = allStudentAverage.filter(student => student.average >= 80).sort((a, b) => b.average - a.average);
 
-    const lowestPerformers = allStudentAverage.filter(student => student.average >= 80).sort((a, b) => a.average - b.average);
+    const lowestPerformers = allStudentAverage.filter(student => student.average <= 80).sort((a, b) => a.average - b.average);
 
 
     // const overallAverages(){}
@@ -103,23 +110,31 @@ export const getSummary = () => {
 
 
 export const updateScore = (id, scoreIndex, newScore) => {
+    let updatedScore = []
 
     const updateStudent = copyOfStudents.find(s => s.id === id)
-    updateStudent[scoreIndex] = newScore
-    console.log(`${updateStudent.name}'s score has been updated`);
+    // updateStudent[scoreIndex] = newScore
+    updateStudent.scores[scoreIndex] = newScore
+
+    updatedScore = [...copyOfStudents, updateStudent.scores]
+
+    console.log(`'s score has been updated`, updatedScore);
 
 }
-
 
 export const printAllStudents = () => {
+    copyOfStudents.forEach(student => console.log(`Id: ${student.id} ,Name:${student.name}, Scores: ${student.scores}`))
 
 }
+// updateScore(1,2,60)
 
-// updateScore(1,2,50)
-getTopPerformers()
+// addStudent("Johny", [80, 90, 33])
+// addStudent("Johny2", [80, 90, 33])
 
-addStudent("John", [80, 90, 33])
+// getTopPerformers()
+// getSummary()
 
-getSummary()
+// printAllStudents()
+// // averageM()
 
-// averageM()
+// getAllAverages()
